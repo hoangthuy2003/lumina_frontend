@@ -1,0 +1,49 @@
+<div class="p-8 max-w-4xl mx-auto">
+  <h1 class="text-2xl font-bold mb-4">Speaking Practice (Proof of Concept)</h1>
+
+  <div class="bg-white p-4 rounded-lg shadow-md mb-6">
+    <h2 class="text-lg font-semibold mb-2">Step 1: Record Your Answer</h2>
+    <div class="space-x-4">
+      <button (click)="startRecording()" [disabled]="isRecording || isSubmitting" 
+              class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded transition disabled:opacity-50 disabled:cursor-not-allowed">
+        Start Recording
+      </button>
+      <button (click)="stopRecording()" [disabled]="!isRecording || isSubmitting"
+              class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition disabled:opacity-50 disabled:cursor-not-allowed">
+        Stop Recording
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="audioURL && !result" class="bg-white p-4 rounded-lg shadow-md mb-6">
+    <h2 class="text-lg font-semibold mb-2">Step 2: Review and Submit</h2>
+    <p class="text-sm text-gray-600 mb-3">Listen to your recording. If you are satisfied, submit it for scoring.</p>
+    <audio [src]="audioURL" controls class="w-full mb-4"></audio>
+    <div>
+      <button (click)="submitForScoring()" [disabled]="isSubmitting" 
+              class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition w-full disabled:opacity-50 disabled:cursor-wait">
+        {{ isSubmitting ? 'Submitting & Scoring...' : 'Submit for Scoring' }}
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="result" class="bg-green-50 p-4 border-l-4 border-green-500 rounded-lg shadow-md">
+    <h2 class="text-xl font-bold mb-2 text-green-800">Scoring Result</h2>
+    <div class="space-y-2">
+        <p class="text-sm text-gray-700"><strong>Saved Audio:</strong> 
+            <a [href]="result.savedAudioUrl" target="_blank" class="text-blue-600 hover:underline">Click to listen</a>
+        </p>
+        <p><strong>Transcript:</strong> <span class="italic text-gray-800">"{{ result.transcript }}"</span></p>
+        <p><strong>Overall Score:</strong> <span class="font-bold text-lg text-green-700">{{ result.overallScore }} / 100</span></p>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
+      <div class="p-3 bg-white border rounded text-center shadow-sm"><strong>Pronunciation:</strong><span class="block font-semibold text-lg">{{ result.pronunciationScore }}</span></div>
+      <div class="p-3 bg-white border rounded text-center shadow-sm"><strong>Accuracy:</strong><span class="block font-semibold text-lg">{{ result.accuracyScore }}</span></div>
+      <div class="p-3 bg-white border rounded text-center shadow-sm"><strong>Fluency:</strong><span class="block font-semibold text-lg">{{ result.fluencyScore }}</span></div>
+      <div class="p-3 bg-white border rounded text-center shadow-sm"><strong>Grammar:</strong><span class="block font-semibold text-lg">{{ result.grammarScore }}</span></div>
+      <div class="p-3 bg-white border rounded text-center shadow-sm"><strong>Vocabulary:</strong><span class="block font-semibold text-lg">{{ result.vocabularyScore }}</span></div>
+      <div class="p-3 bg-white border rounded text-center shadow-sm"><strong>Content:</strong><span class="block font-semibold text-lg">{{ result.contentScore }}</span></div>
+    </div>
+  </div>
+</div>

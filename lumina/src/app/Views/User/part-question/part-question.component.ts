@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ExamService } from '../../../Services/Exam/exam.service';
-import { PartDetailComponent } from "../part-detail/part-detail.component";
-import { QuestionComponent } from "../question/question.component";
+import { PartDetailComponent } from '../part-detail/part-detail.component';
+import { QuestionComponent } from '../question/question.component';
 import { ExamPartDTO, QuestionDTO } from '../../../Interfaces/exam.interfaces';
 
 @Component({
@@ -10,7 +10,7 @@ import { ExamPartDTO, QuestionDTO } from '../../../Interfaces/exam.interfaces';
   standalone: true,
   imports: [PartDetailComponent, QuestionComponent],
   templateUrl: './part-question.component.html',
-  styleUrl: './part-question.component.scss'
+  styleUrl: './part-question.component.scss',
 })
 export class PartQuestionComponent {
   partId: number | null = null;
@@ -19,8 +19,8 @@ export class PartQuestionComponent {
   questions: QuestionDTO[] = [];
   isLoading = true;
   constructor(private route: ActivatedRoute, private examService: ExamService) {
-      this.partId = Number(this.route.snapshot.paramMap.get('id'));
-      this.loadPartDetail();
+    this.partId = Number(this.route.snapshot.paramMap.get('id'));
+    this.loadPartDetail();
   }
   private loadPartDetail(): void {
     if (this.partId) {
@@ -28,13 +28,13 @@ export class PartQuestionComponent {
         next: (data) => {
           this.partDetail = data;
           console.log('Part detail loaded:', this.partDetail);
-          this.partInfo ={
+          this.partInfo = {
             partId: this.partDetail.partId,
             examId: this.partDetail.examId,
             partCode: this.partDetail.partCode,
             title: this.partDetail.title,
             orderIndex: this.partDetail.orderIndex,
-            questions: []
+            questions: [],
           };
           this.questions = this.partDetail.questions || [];
           this.isLoading = false;
@@ -42,7 +42,7 @@ export class PartQuestionComponent {
         error: (error) => {
           console.error('Error loading part detail:', error);
           this.isLoading = false;
-        }
+        },
       });
     }
   }
